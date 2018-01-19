@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+environment/buildEnvironmentInclude/com.intel.iotdevkit.poky.i586.toolchain.1679937582/CPATH/delimiter=;
+environment/buildEnvironmentInclude/com.intel.iotdevkit.poky.i586.toolchain.1679937582/CPATH/operation=remove
+environment/buildEnvironmentInclude/com.intel.iotdevkit.poky.i586.toolchain.1679937582/CPLUS_INCLUDE_PATH/delimiter=;
+environment/buildEnvironmentInclude/com.intel.iotdevkit.poky.i586.toolchain.1679937582/CPLUS_INCLUDE_PATH/operation=remove
+environment/buildEnvironmentInclude/com.intel.iotdevkit.poky.i586.toolchain.1679937582/C_INCLUDE_PATH/delimiter=;
+environment/buildEnvironmentInclude/com.intel.iotdevkit.poky.i586.toolchain.1679937582/C_INCLUDE_PATH/operation=remove
+environment/buildEnvironmentInclude/com.intel.iotdevkit.poky.i586.toolchain.1679937582/append=true
+environment/buildEnvironmentInclude/com.intel.iotdevkit.poky.i586.toolchain.1679937582/appendContributed=true
+environment/buildEnvironmentLibrary/com.intel.iotdevkit.poky.i586.toolchain.1679937582/LIBRARY_PATH/delimiter=;
+environment/buildEnvironmentLibrary/com.intel.iotdevkit.poky.i586.toolchain.1679937582/LIBRARY_PATH/operation=remove
+environment/buildEnvironmentLibrary/com.intel.iotdevkit.poky.i586.toolchain.1679937582/append=true
+environment/buildEnvironmentLibrary/com.intel.iotdevkit.poky.i586.toolchain.1679937582/appendContributed=true
