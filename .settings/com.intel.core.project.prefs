@@ -1,4 +1,4 @@
-com.intel.core.connection.selection=edison-quadcopter
+com.intel.core.connection.selection=edison-quadcopter-2
 com.intel.core.platform.selected.id=com.intel.iotdevkit.platform.edison
 com.intel.core.project.description=Edison
 com.intel.core.project.name=QuadrotorTcpRuntime

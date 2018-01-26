@@ -31,6 +31,7 @@
 #include <boost/interprocess/shared_memory_object.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 #include <netinet/tcp.h> // tcp_nodelay
+#include <csignal> // for SIGNT
 
 #include "./../include/json.hpp"
 
@@ -62,7 +63,11 @@ void _SIG_HANDLER_ (int sig) {
 	if(regionRX) {
 		std::cout << "Memset '0' for SHARED_RX_MEM..." << std::endl;
 		std::memset(regionRX->get_address(), '\0', regionRX->get_size());
-		delete regionRX;
+		std::string DISCONNECTED_MESSAGE = "{\"command\":\"neutral\"}\n";
+		std::strcpy((char*)regionRX->get_address(), DISCONNECTED_MESSAGE.c_str());
+
+		// Not deleted in case other processes (Flight Controller) are using RX Buffer Stream
+		//delete regionRX;
 	}
 
 	if(regionTX) {
@@ -76,16 +81,14 @@ void _SIG_HANDLER_ (int sig) {
 
 int main(void)
 {
+	// register SIGINT
+	signal(SIGINT, _SIG_HANDLER_);
+	signal(SIGTERM, _SIG_HANDLER_);
+
 	std::cout << "Starting TCP Server..." << std::endl;
     struct sockaddr_in si_me, si_other;
 
     socklen_t slen = sizeof(si_other);
-
-//    char flag = '\n';
-//    if ((setsockopt(nSocket, IPPROTO_TCP, TCP_NODELAY, (char*)&flag, sizeof(int))) < 0) {
-//    	std::cout << "Failed to set TCP Socket options";
-//		exit(-1);
-//    }
 
     // zero out the structure
     memset((char *) &si_me, 0, sizeof(si_me));
@@ -128,10 +131,15 @@ int main(void)
 		exit(-2);
 	}
 	while(true) {
+		//set default values for RX/TX buffers when waiting on connection...
 		std::memset(buffer, '\0', BUFLEN); // clear buffer
-		std::string firstMessage = "{\"status\":\"waiting...\"}\n";
-		strncpy((char*)regionTX->get_address(), firstMessage.c_str(), firstMessage.length()); // set TX to standby (avoid null message)
+		std::memset(buffer_old, '\0', BUFLEN); // clear old buffer
+		std::string firstTXMessage = "{\"status\":\"waiting\"}\n";
+		strncpy((char*)regionTX->get_address(), firstTXMessage.c_str(), firstTXMessage.length()); // set TX to standby (avoid null message)
 
+		std::string firstRXMessage = "{\"command\":\"neutral\"}\n";
+		std::memset(regionRX->get_address(), '\0', regionRX->get_size()); // clear tx region
+		strncpy((char*)regionRX->get_address(), firstRXMessage.c_str(), firstRXMessage.length()); // set TX to standby (avoid null message)
 		sleep(1);
 
 		// wait for client to make a connection...
@@ -152,15 +160,21 @@ int main(void)
 
 		while(activeConnection)
 		{
+			//RX PHASE
 			//fflush(stdout);
 			std::memset(buffer, '\0', BUFLEN); // clear buffer
 			if( recv(tcpRuntimeSocket, buffer, BUFLEN, 0) == 0) {
 				std::cout << "Failed to receive message..." << std::endl;
 				std::cout << "Connection to TCP client lost..." << std::endl;
-				std::memset(buffer, '\0', BUFLEN); // clear buffer
 				activeConnection = false;
 				close(tcpRuntimeSocket);
+
+				std::memset(buffer, '\0', BUFLEN); // clear buffer
 				std::cout << "Setting inactive connection..." << std::endl;
+				std::string DISCONNECTED_RX_MESSAGE = "{\"directive\":\"neutral\"}\n";
+				std::strcpy((char*)regionRX->get_address(), DISCONNECTED_RX_MESSAGE.c_str());
+				std::string DISCONNECTED_TX_MESSAGE = "{\"status\":\"waiting\"}\n";
+				std::strcpy((char*)regionTX->get_address(), DISCONNECTED_TX_MESSAGE.c_str());
 				break;
 			}
 
@@ -184,6 +198,13 @@ int main(void)
 				activeConnection = false;
 				std::memset(buffer, '\0', BUFLEN); // clear buffer
 				close(tcpRuntimeSocket);
+
+				std::memset(buffer, '\0', BUFLEN); // clear buffer
+				std::cout << "Setting inactive connection..." << std::endl;
+				std::string DISCONNECTED_RX_MESSAGE = "{\"directive\":\"neutral\"}\n";
+				std::strcpy((char*)regionRX->get_address(), DISCONNECTED_RX_MESSAGE.c_str());
+				std::string DISCONNECTED_TX_MESSAGE = "{\"status\":\"waiting\"}\n";
+				std::strcpy((char*)regionTX->get_address(), DISCONNECTED_TX_MESSAGE.c_str());
 				std::cout << "Setting inactive connection..." << std::endl;
 				break;
 			}
