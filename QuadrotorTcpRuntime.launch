@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.intel.iotdevkit.cdt.launch.CDTRemoteLaunchType">
-<stringAttribute key="com.intel.core.launch.launched_connection" value="edison-quadcopter-2"/>
+<stringAttribute key="com.intel.core.launch.launched_connection" value="intel-edison-batcave"/>
 <stringAttribute key="com.intel.iotdevkit.launch.config.default" value="QuadrotorTcpRuntime"/>
 <stringAttribute key="org.eclipse.cdt.dsf.gdb.DEBUG_NAME" value="gdb"/>
-<stringAttribute key="org.eclipse.cdt.dsf.gdb.HOST" value="edison-quadcopter-2"/>
+<stringAttribute key="org.eclipse.cdt.dsf.gdb.HOST" value="intel-edison-batcave"/>
 <booleanAttribute key="org.eclipse.cdt.dsf.gdb.NON_STOP" value="false"/>
 <stringAttribute key="org.eclipse.cdt.dsf.gdb.PORT" value="2345"/>
 <booleanAttribute key="org.eclipse.cdt.dsf.gdb.REMOTE_TCP" value="true"/>
@@ -21,7 +21,7 @@
 <stringAttribute key="org.eclipse.debug.core.ATTR_PRERUN_CMDS" value="chmod 755 /tmp/QuadrotorTcpRuntime"/>
 <booleanAttribute key="org.eclipse.debug.core.ATTR_SKIP_DOWNLOAD_TO_TARGET" value="false"/>
 <stringAttribute key="org.eclipse.debug.core.ATTR_TARGET_PATH" value="/tmp/QuadrotorTcpRuntime"/>
-<stringAttribute key="org.eclipse.debug.core.REMOTE_TCP" value="edison-quadcopter-2"/>
+<stringAttribute key="org.eclipse.debug.core.REMOTE_TCP" value="intel-edison-batcave"/>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>

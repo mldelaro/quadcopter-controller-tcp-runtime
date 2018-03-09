@@ -63,7 +63,7 @@ void _SIG_HANDLER_ (int sig) {
 	if(regionRX) {
 		std::cout << "Memset '0' for SHARED_RX_MEM..." << std::endl;
 		std::memset(regionRX->get_address(), '\0', regionRX->get_size());
-		std::string DISCONNECTED_MESSAGE = "{\"command\":\"neutral\"}\n";
+		std::string DISCONNECTED_MESSAGE = "{\"motions\":[{\"motionId\":0,\"motionSpeed\":0}]}\n";
 		std::strcpy((char*)regionRX->get_address(), DISCONNECTED_MESSAGE.c_str());
 
 		// Not deleted in case other processes (Flight Controller) are using RX Buffer Stream
@@ -137,7 +137,7 @@ int main(void)
 		std::string firstTXMessage = "{\"status\":\"waiting\"}\n";
 		strncpy((char*)regionTX->get_address(), firstTXMessage.c_str(), firstTXMessage.length()); // set TX to standby (avoid null message)
 
-		std::string firstRXMessage = "{\"command\":\"neutral\"}\n";
+		std::string firstRXMessage = "{\"motions\":[{\"motionId\":0,\"motionSpeed\":0}]}\n";
 		std::memset(regionRX->get_address(), '\0', regionRX->get_size()); // clear tx region
 		strncpy((char*)regionRX->get_address(), firstRXMessage.c_str(), firstRXMessage.length()); // set TX to standby (avoid null message)
 		sleep(1);
@@ -171,7 +171,7 @@ int main(void)
 
 				std::memset(buffer, '\0', BUFLEN); // clear buffer
 				std::cout << "Setting inactive connection..." << std::endl;
-				std::string DISCONNECTED_RX_MESSAGE = "{\"directive\":\"neutral\"}\n";
+				std::string DISCONNECTED_RX_MESSAGE = "{\"motions\":[{\"motionId\":0,\"motionSpeed\":0}]}\n";
 				std::strcpy((char*)regionRX->get_address(), DISCONNECTED_RX_MESSAGE.c_str());
 				std::string DISCONNECTED_TX_MESSAGE = "{\"status\":\"waiting\"}\n";
 				std::strcpy((char*)regionTX->get_address(), DISCONNECTED_TX_MESSAGE.c_str());
@@ -201,7 +201,7 @@ int main(void)
 
 				std::memset(buffer, '\0', BUFLEN); // clear buffer
 				std::cout << "Setting inactive connection..." << std::endl;
-				std::string DISCONNECTED_RX_MESSAGE = "{\"directive\":\"neutral\"}\n";
+				std::string DISCONNECTED_RX_MESSAGE = "{\"motions\":[{\"motionId\":0,\"motionSpeed\":0}]}\n";
 				std::strcpy((char*)regionRX->get_address(), DISCONNECTED_RX_MESSAGE.c_str());
 				std::string DISCONNECTED_TX_MESSAGE = "{\"status\":\"waiting\"}\n";
 				std::strcpy((char*)regionTX->get_address(), DISCONNECTED_TX_MESSAGE.c_str());
