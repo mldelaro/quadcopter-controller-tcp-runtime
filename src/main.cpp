@@ -172,7 +172,9 @@ int main(void)
 				std::memset(buffer, '\0', BUFLEN); // clear buffer
 				std::cout << "Setting inactive connection..." << std::endl;
 				std::string DISCONNECTED_RX_MESSAGE = "{\"motions\":[{\"motionId\":0,\"motionSpeed\":0}]}\n";
-				std::strcpy((char*)regionRX->get_address(), DISCONNECTED_RX_MESSAGE.c_str());
+				strncpy(buffer_old, buffer, BUFLEN);
+				strncpy(buffer, DISCONNECTED_RX_MESSAGE, BUFLEN);
+				std::strcpy((char*)regionRX->get_address(), buffer.c_str());
 				std::string DISCONNECTED_TX_MESSAGE = "{\"status\":\"waiting\"}\n";
 				std::strcpy((char*)regionTX->get_address(), DISCONNECTED_TX_MESSAGE.c_str());
 				break;
@@ -202,7 +204,9 @@ int main(void)
 				std::memset(buffer, '\0', BUFLEN); // clear buffer
 				std::cout << "Setting inactive connection..." << std::endl;
 				std::string DISCONNECTED_RX_MESSAGE = "{\"motions\":[{\"motionId\":0,\"motionSpeed\":0}]}\n";
-				std::strcpy((char*)regionRX->get_address(), DISCONNECTED_RX_MESSAGE.c_str());
+				strncpy(buffer, DISCONNECTED_RX_MESSAGE, BUFLEN);
+				strncpy(buffer_old, buffer, BUFLEN);
+				std::strcpy((char*)regionRX->get_address(), buffer.c_str());
 				std::string DISCONNECTED_TX_MESSAGE = "{\"status\":\"waiting\"}\n";
 				std::strcpy((char*)regionTX->get_address(), DISCONNECTED_TX_MESSAGE.c_str());
 				std::cout << "Setting inactive connection..." << std::endl;
